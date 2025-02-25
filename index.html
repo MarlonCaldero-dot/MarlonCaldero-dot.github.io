@@ -1,36 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Héroes</title>
+    <style>
+        body {
+            background-image: url('img/wallpaper.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white; }
+
+        .card-container {
+            perspective: 1000px;
+            text-align: center;
+        }
+        .card-inner {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .card-container:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .hero-description {
+            margin-top: 10px;
+            font-weight: bold;}
+
+            .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        .navbar {
+            background: rgba(241, 238, 238, 0.8) !important;
+        }
+        
+    </style>
     <script>
         function showContent(section) {
             const content = {
                 'heroes': `
-                    <h2>Heroes</h2>
+                    <h2>Héroes</h2>
                     <p>Conoce algunos de los héroes más icónicos.</p>
-                    <div class="row row-cols-2 g-3">
+                    <div class="row row-cols-2 row-cols-md-3 g-3">
                         ${[
-                        { name: "Iron Man", img: "img/1.jpg", desc: "Genio multimillonario con una armadura avanzada." },
-                        { name: "Spider-Man", img: "img/2.jpg", desc: "Héroe arácnido con grandes poderes y responsabilidad." },
-                        { name: "Captain America", img: "img/3.jpg", desc: "El primer vengador con escudo indestructible." },
-                        { name: "Black Panther", img: "img/4.jpg", desc: "Rey de Wakanda con tecnología avanzada." },
-                        { name: "Thor", img: "img/5.jpg", desc: "Dios del trueno y protector de Asgard." },
-                        { name: "Hulk", img: "img/6.jpg", desc: "Científico con una fuerza imparable." },
-                        { name: "Doctor Strange", img: "img/7.jpg", desc: "El hechicero supremo, maestro de las artes místicas." },
-                        { name: "Scarlet Witch", img: "img/8.jpg", desc: "Posee poderes mágicos y habilidades de alteración de la realidad." },
-                        { name: "Ant-Man", img: "img/9.jpg", desc: "Héroe capaz de cambiar su tamaño y comunicarse con insectos." },
-                        { name: "Wolverine", img: "img/10.jpg", desc: "Mutante con garras de adamantium y factor de curación acelerado." }
-                 ].map(hero => `
+                        { name: "Iron Man", img: "img/1.jpg", backImg: "img/back1.jpg", desc: "Genio multimillonario con una armadura avanzada." },
+                        { name: "Spider-Man", img: "img/2.jpg", backImg: "img/back2.jpg", desc: "Héroe arácnido con grandes poderes y responsabilidad." },
+                        { name: "Captain America", img: "img/3.jpg", backImg: "img/back3.jpg", desc: "El primer vengador con escudo indestructible." },
+                        { name: "Black Panther", img: "img/4.jpg", backImg: "img/back4.jpg", desc: "Rey de Wakanda con tecnología avanzada." },
+                        { name: "Thor", img: "img/5.jpg", backImg: "img/back5.jpg", desc: "Dios del trueno y protector de Asgard." },
+                        { name: "Hulk", img: "img/6.jpg", backImg: "img/back6.jpg", desc: "Científico con una fuerza imparable." },
+                        { name: "Doctor Strange", img: "img/7.jpg", backImg: "img/back7.jpg", desc: "El hechicero supremo, maestro de las artes místicas." },
+                        { name: "Scarlet Witch", img: "img/8.jpg", backImg: "img/back8.jpg", desc: "Posee poderes mágicos y habilidades de alteración de la realidad." },
+                        { name: "Ant-Man", img: "img/9.jpg", backImg: "img/back9.jpg", desc: "Héroe capaz de cambiar su tamaño y comunicarse con insectos." },
+                        { name: "Wolverine", img: "img/10.jpg", backImg: "img/back10.jpg", desc: "Mutante con garras de adamantium y factor de curación acelerado." }
+                        ].map(hero => `
                             <div class="col">
-                                <div class="card" style="width: 100%; min-height: 400px;"">
-                                    <img src="${hero.img}" class="card-img-top" alt="${hero.name}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${hero.name}</h5>
-                                        <p class="card-text">${hero.desc}</p>
+                                <div class="card-container">
+                                    <div class="card-inner">
+                                        <div class="card-front card">
+                                            <img src="${hero.img}" alt="${hero.name}">
+                                        </div>
+                                        <div class="card-back card">
+                                            <img src="${hero.backImg}" alt="${hero.name}">
+                                        </div>
+                                    </div>
+                                    <div class="hero-description">
+                                        <h5>${hero.name}</h5>
+                                        <p>${hero.desc}</p>
                                     </div>
                                 </div>
                             </div>
